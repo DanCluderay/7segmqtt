@@ -165,7 +165,16 @@ function TurnRigh360()
     print("Print DOne");
     
 end            
-
+function mysplit(inputstr)
+    
+        local t={} ; i=1
+       for token in string.gmatch(inputstr, "[^%s]+") do
+                t[i] = token
+                i = i + 1
+        end
+        --print("t " .. t.len)
+        return t
+end
 
 function module.start()  
 

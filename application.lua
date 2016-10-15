@@ -27,7 +27,9 @@ print("===============mqtt start=====================")
       if data ~= nil then
         print(topic .. ": " .. data)
      gpio.write(2, gpio.HIGH);
-                 if (data == "Left360") then
+     arr=mysplit(data)
+    
+                 if (arr[0] == "Left360") then
 
                     TurnLeft360()
                 elseif (data=="Right360") then
