@@ -64,6 +64,13 @@ function createoutputarray(teststring)
    collectgarbage();
 end
 
+function SetOutPutToAllZeros()
+    outputenabled_on(0);
+        for y=1, 8 ,1
+            do pulse(0)       
+        end
+    outputenabled_on(1);
+end
 
 function buildoutputarray(job)
         --collectgarbage();
@@ -81,15 +88,11 @@ function buildoutputarray(job)
         end
         outputenabled_on(1);
       
-           tmr.delay(10) 
+           tmr.delay(3) 
     end
     print("Finished loop")
-    --createoutputarray("0000")
-    for y=1, 4 ,1
-            do pulse(0)
-           -- tmr.delay(2)
-    end
-
+    SetOutPutToAllZeros()
+    SetOutPutToAllZeros=nil
         collectgarbage();
 end
 
