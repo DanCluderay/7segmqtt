@@ -190,6 +190,28 @@ if(StepMode==1) then
  
         end
 end 
+if(StepMode==1) then
+    if(CurrentJob == "0000")then
+        -- This Job 1000
+              nj = "1001";
+        elseif(CurrentJob == "1001")then
+           -- This Job 0100
+              nj = "0011";
+        elseif(CurrentJob == "0011")then
+           -- This Job 0010
+              nj = "0110";          
+        elseif(CurrentJob == "0110")then
+         -- This Job 0001
+              nj = "1100";    
+        elseif(CurrentJob == "1100")then
+         -- This Job 1000
+              nj = "1001";
+        elseif(CurrentJob == "1111")then
+           -- This Job 0100
+              nj = "0000";
+ 
+        end
+end 
         
         nextjob=nj
                 -- hold your hourses
