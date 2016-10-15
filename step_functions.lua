@@ -34,7 +34,7 @@ if(StepMode==1) then
  
         end
 end 
-if(StepMode==1) then
+if(StepMode==2) then
     if(CurrentJob == "0000")then
         -- This Job 1000
               nj = "1001";
@@ -56,11 +56,35 @@ if(StepMode==1) then
  
         end
 end 
-        
+--[[
+if(StepMode==3) then
+    if(CurrentJob == "0000")then
+        -- This Job 1000
+              nj = "0111";
+        elseif(CurrentJob == "0111")then
+           -- This Job 0100
+              nj = "1011";
+        elseif(CurrentJob == "1011")then
+           -- This Job 0010
+              nj = "1101";          
+        elseif(CurrentJob == "1101")then
+         -- This Job 0001
+              nj = "1110";    
+        elseif(CurrentJob == "1110")then
+         -- This Job 1000
+              nj = "0111";
+        elseif(CurrentJob == "1111")then
+           -- This Job 0100
+              nj = "0000";
+ 
+        end
+end 
+    ]]--    
         nextjob=nj
                 -- hold your hourses
 
 end  
+
 function GetNextJobLeft(CurrentJob)
 --do a lookup on the current jobstring
 nj = ""

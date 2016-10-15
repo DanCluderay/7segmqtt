@@ -117,7 +117,6 @@ function pulse(On)
                         gpio.write(DS, gpio.LOW);
             end 
 
-            --tmr.delay(200)
             gpio.write(SH, gpio.HIGH);
             --tmr.delay(200)
             gpio.write(SH, gpio.LOW);        
@@ -132,7 +131,7 @@ function pulse(On)
        
 end
 function TurnLeft360()
- -- loop 200 steps
+
     outputarray = {}
     m1_temp = {}
               for i=1,200, 1
@@ -141,14 +140,9 @@ function TurnLeft360()
 
                 GetNextJobRight(nextjob);
                 outputarray[i] = nextjob
-                print(nextjob);
-                --createoutputarray(outputarray[i])  
-                
-                -- tmr.delay(10) 
-                      
+                print(nextjob);    
               end
-    --m1_temp = nil
-    --outputarray = nil
+
     collectgarbage();
   
     print("Print DOne");
@@ -161,17 +155,12 @@ function TurnRigh360()
               for i=200,1, -1 
                 do print(i) 
                 stepposition=i;
-
                 GetNextJobRight(nextjob);
                 outputarray[i] = nextjob
                 print(nextjob);
-                --createoutputarray(outputarray[i])  
-                
-                -- tmr.delay(10) 
-                      
+    
               end
-    --m1_temp = nil
-    --outputarray = nil  
+
     collectgarbage();
     print("Print DOne");
     
