@@ -20,7 +20,7 @@ gpio.mode(ST, gpio.OUTPUT)
 sda = 2-- SDA Pin
 scl = 1-- SCL Pin
 
-StepMode = 0 -- 0 = single step, 2 = Full Step
+
         
 outputarray = {}
 m1_temp = {}
@@ -81,7 +81,7 @@ function buildoutputarray(job)
         end
         outputenabled_on(1);
       
-          -- tmr.delay(10) 
+           tmr.delay(10) 
     end
     print("Finished loop")
     --createoutputarray("0000")
@@ -130,16 +130,16 @@ function TurnLeft360()
  -- loop 200 steps
     outputarray = {}
     m1_temp = {}
-              for i=200,1, -1
+              for i=1,200, 1
                 do print(i) 
                 stepposition=i;
 
-                GetNextJobLeft(nextjob);
+                GetNextJobRight(nextjob);
                 outputarray[i] = nextjob
                 print(nextjob);
                 --createoutputarray(outputarray[i])  
                 
-                tmr.delay(10) 
+                -- tmr.delay(10) 
                       
               end
     collectgarbage();
@@ -158,108 +158,40 @@ function TurnRigh360()
                 print(nextjob);
                 --createoutputarray(outputarray[i])  
                 
-                 tmr.delay(10) 
+                -- tmr.delay(10) 
                       
               end
     collectgarbage();
     print("Print DOne");
 end            
 
-function GetNextJobLeft(CurrentJob)
---do a lookup on the current jobstring
-nj = ""
-if(StepMode==0) then
-       if(CurrentJob == "0000")then
-        -- This Job 1000
-              nj = "1000";
-    
-             
-     
-        elseif(CurrentJob == "1000")then
-           -- This Job 0100
-              nj = "0100";
-             
-              
-        elseif(CurrentJob == "0100")then
-           -- This Job 0010
-              nj = "0010";
-           
-              
-        elseif(CurrentJob == "0010")then
-         -- This Job 0001
-              nj = "0001";
-           
-            
-        elseif(CurrentJob == "0001")then
-         -- This Job 1000
-              nj = "1000";
-        elseif(CurrentJob == "1111")then
-           -- This Job 0100
-              nj = "0000";   
-        end
-end
-if(StepMode==1) then
-       if(CurrentJob == "0000")then
-        -- This Job 1000
-              nj = "1001";
-    
-             
-     
-        elseif(CurrentJob == "1001")then
-           -- This Job 0100
-              nj = "1100";
-             
-              
-        elseif(CurrentJob == "1100")then
-           -- This Job 0010
-              nj = "0110";
-           
-              
-        elseif(CurrentJob == "0110")then
-         -- This Job 0001
-              nj = "0011";
-           
-            
-        elseif(CurrentJob == "0011")then
-         -- This Job 1000
-              nj = "1001";
-        elseif(CurrentJob == "1111")then
-           -- This Job 0100
-              nj = "0000";   
-        end
-end
- 
-        nextjob=nj
-                -- hold your hourses
-
-end  
 function GetNextJobRight(CurrentJob)
 --do a lookup on the current jobstring
 nj = ""
         if(CurrentJob == "0000")then
         -- This Job 1000
-              nj = "0001";
+              nj = "1000";
     
              
      
-        elseif(CurrentJob == "0001")then
+        elseif(CurrentJob == "1000")then
            -- This Job 0100
-              nj = "0010";
+              nj = "0100";
              
               
-        elseif(CurrentJob == "0010")then
+        elseif(CurrentJob == "0100")then
            -- This Job 0010
-              nj = "0100";
+              nj = "0010";
            
               
-        elseif(CurrentJob == "0100")then
+        elseif(CurrentJob == "0010")then
          -- This Job 0001
-              nj = "1000";
+              nj = "0001";
            
             
-        elseif(CurrentJob == "1000")then
+        elseif(CurrentJob == "0001")then
          -- This Job 1000
-              nj = "0001";
+              nj = "1000";
         elseif(CurrentJob == "1111")then
            -- This Job 0100
               nj = "0000";
