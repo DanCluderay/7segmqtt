@@ -72,9 +72,9 @@ function SetOutPutToAllZeros()
     outputenabled_on(1);
 end
 
-function buildoutputarray(job)
-        --collectgarbage();
-    for i = 1, 200, 1
+function buildoutputarray(degrees)
+totalsteps = tonumber(degrees) 
+    for i = 1, totalsteps, 1
 
         do createoutputarray(outputarray[i])
 
@@ -130,11 +130,13 @@ function pulse(On)
             gpio.write(ST, gpio.LOW);
        
 end
-function TurnLeft360()
+function TurnLeft(degrees, form)
+
+totalsteps = tonumber(degrees) 
 
     outputarray = {}
     m1_temp = {}
-              for i=1,200, 1
+              for i=1,totalsteps, 1
                 do print(i) 
                 stepposition=i;
 
@@ -148,11 +150,11 @@ function TurnLeft360()
     print("Print DOne");
     
 end     
-function TurnRigh360()
- -- loop 200 steps
+function TurnRight(degrees, form)
+totalsteps = tonumber(degrees) 
     outputarray = {}
     m1_temp = {}
-              for i=200,1, -1 
+              for i=totalsteps,1, -1 
                 do print(i) 
                 stepposition=i;
                 GetNextJobRight(nextjob);
@@ -172,7 +174,7 @@ function mysplit(inputstr)
                 t[i] = token
                 i = i + 1
         end
-        --print("t " .. t.len)
+
         return t
 end
 
