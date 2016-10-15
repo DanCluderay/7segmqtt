@@ -130,6 +130,45 @@ function pulse(On)
             gpio.write(ST, gpio.LOW);
        
 end
+
+function TurnLeft_i(degrees, form)
+
+totalsteps = tonumber(degrees) 
+nextjob = "1000"
+    --outputarray = {}
+   -- m1_temp = {}
+              for i=1,totalsteps, 1
+                do 
+                nextjob1=0
+                nextjob1= GetNextJobRight(nextjob);   
+                print(nextjob)
+                tmr.delay(10) 
+                stringlen = string.len(nextjob1);
+                outputenabled_on(0);
+                for i = 1, stringlen
+                    do 
+                    newstring = string.byte(nextjob1,i,(i + 1))
+                    --print("New string bin " .. newstring)
+                    if (newstring == 48) then
+                    --its a zero
+                        pulse(0)
+                    end
+                    if (newstring == 49) then
+                        --its a one
+                       pulse(1)
+                    end
+                    --newstring=nil
+                end
+                --stringlen=nil
+                outputenabled_on(1);
+             
+              end   
+--SetOutPutToAllZeros()
+    print("Print DOne");
+    --nextjob=nil
+    collectgarbage(); 
+end   
+
 function TurnLeft(degrees, form)
 
 totalsteps = tonumber(degrees) 

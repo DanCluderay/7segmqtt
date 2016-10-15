@@ -28,22 +28,25 @@ print("===============mqtt start=====================")
         print(topic .. ": " .. data)
      gpio.write(2, gpio.HIGH);
      arr=mysplit(data)
-    print(" arr 0 " .. arr[1])
+    --[[print(" arr 0 " .. arr[1])
      print(" arr 1 " .. arr[2])
-     print(" arr 2 " .. arr[3])
+     print(" arr 2 " .. arr[3])]]--
                  if (arr[1] == "Left") then
 
                     TurnLeft(arr[2],arr[3])
+                    buildoutputarray(arr[2])
                 elseif (arr[1]=="Right") then
                     TurnRight(arr[2],arr[3]) 
+                    buildoutputarray(arr[2])
                  else
-                    --TurnRigh360() 
+                    TurnLeft_i(arr[2],arr[3])
                  end
            
             
-             buildoutputarray(arr[2])
+
             
             print("Finished job")
+            arr=nil
                  gpio.write(2, gpio.LOW);
                 
       end

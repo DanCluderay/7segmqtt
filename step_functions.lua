@@ -81,6 +81,7 @@ if(StepMode==3) then
 end 
     ]]--    
         nextjob=nj
+        return nextjob
                 -- hold your hourses
 
 end  
