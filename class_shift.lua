@@ -66,7 +66,7 @@ end
 
 function SetOutPutToAllZeros()
     outputenabled_on(0);
-        for y=1, 8 ,1
+        for y=1, 4 ,1
             do pulse(0)       
         end
     outputenabled_on(1);
@@ -88,11 +88,13 @@ function buildoutputarray(job)
         end
         outputenabled_on(1);
       
-           tmr.delay(3) 
+           tmr.delay(10) 
     end
+    --outputarray = {}
+    --m1_temp = {}
     print("Finished loop")
     SetOutPutToAllZeros()
-    SetOutPutToAllZeros=nil
+    --SetOutPutToAllZeros=nil
         collectgarbage();
 end
 
@@ -145,8 +147,12 @@ function TurnLeft360()
                 -- tmr.delay(10) 
                       
               end
+    --m1_temp = nil
+    --outputarray = nil
     collectgarbage();
+  
     print("Print DOne");
+    
 end     
 function TurnRigh360()
  -- loop 200 steps
@@ -164,8 +170,11 @@ function TurnRigh360()
                 -- tmr.delay(10) 
                       
               end
+    --m1_temp = nil
+    --outputarray = nil  
     collectgarbage();
     print("Print DOne");
+    
 end            
 
 function GetNextJobRight(CurrentJob)
