@@ -131,20 +131,25 @@ function pulse(On)
        
 end
 
-function TurnLeft_i(degrees, form)
-
+function TurnLeft_i(direction, degrees, form)
+   print("Total degrees " .. degrees)
 totalsteps = tonumber(degrees) 
 nextjob = "1000"
     --outputarray = {}
    -- m1_temp = {}
+   print("Total form " .. form)
+   print("Total direction " .. direction)
               for i=1,totalsteps, 1
                 do 
                 nextjob1=0
-                nextjob1= GetNextJobRight(nextjob);   
-                print(nextjob)
+                nextjob1= DynamicMove(nextjob,form,direction);   
+                print("Next Job " .. nextjob1)
+                --print(nextjob1)
                 tmr.delay(10) 
                 stringlen = string.len(nextjob1);
+                --print("String len " .. stringlen)
                 outputenabled_on(0);
+                
                 for i = 1, stringlen
                     do 
                     newstring = string.byte(nextjob1,i,(i + 1))
