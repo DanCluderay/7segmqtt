@@ -131,7 +131,7 @@ function pulse(On)
        
 end
 
-function TurnLeft_i(direction, degrees, form)
+function Drive_i(direction, degrees, form)
    print("Total degrees " .. degrees)
 totalsteps = tonumber(degrees) 
 nextjob = "1000"
@@ -168,7 +168,7 @@ nextjob = "1000"
                 outputenabled_on(1);
              
               end   
---SetOutPutToAllZeros()
+    SetOutPutToAllZeros()
     print("Print DOne");
     --nextjob=nil
     collectgarbage(); 
