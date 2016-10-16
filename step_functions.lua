@@ -10,11 +10,11 @@ StepMode = 1 --Stepmode=1 (Single) , StepMode = 2 (Double)
 function DynamicMove(CurrentJob, TheMode , Direction)
 RevValue = ""
 ForwardVal = ""
-print("Current job " .. CurrentJob)
+--[[print("Current job " .. CurrentJob)
 print("The Mode " .. TheMode)
-print("Direction " .. Direction)
+print("Direction " .. Direction)]]--
 r =""
-   -- if(TheMode==1) then
+    if(tonumber(TheMode)==1) then
          if(CurrentJob == "0000")then
         -- This Job 1000
               RevValue = "0001";
@@ -40,16 +40,18 @@ r =""
               RevValue = "0000";
               ForwardVal="0000"
         end
-  --  elseif(TheMode==2) then
-  --  elseif(TheMode==3) then
-   -- end
+    elseif(tonumber(TheMode)==2) then
+    elseif(tonumber(TheMode)==3) then
+    end
 
-if(Direction==1) then
+if(tonumber(Direction)==1) then
    r = ForwardVal
 else
    r = RevValue
-end        
+end   
+     
 nextjob=r
+
 return r
 end
 function GetNextJobRight(CurrentJob)
