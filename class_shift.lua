@@ -72,9 +72,9 @@ function SetOutPutToAllZeros()
     outputenabled_on(1);
 end
 
-function buildoutputarray(job)
-        --collectgarbage();
-    for i = 1, 200, 1
+function buildoutputarray(degrees)
+totalsteps = tonumber(degrees) 
+    for i = 1, totalsteps, 1
 
         do createoutputarray(outputarray[i])
 
@@ -117,7 +117,6 @@ function pulse(On)
                         gpio.write(DS, gpio.LOW);
             end 
 
-            --tmr.delay(200)
             gpio.write(SH, gpio.HIGH);
             --tmr.delay(200)
             gpio.write(SH, gpio.LOW);        
@@ -131,52 +130,97 @@ function pulse(On)
             gpio.write(ST, gpio.LOW);
        
 end
-function TurnLeft360()
- -- loop 200 steps
+
+function Drive_i(direction, degrees, form)
+   print("Total degrees " .. degrees)
+totalsteps = tonumber(degrees) 
+nextjob = "1000"
+    --outputarray = {}
+   -- m1_temp = {}
+   print("Total form " .. form)
+   print("Total direction " .. direction)
+              for i=1,totalsteps, 1
+                do 
+                nextjob1=0
+                nextjob1= DynamicMove(nextjob,form,direction);   
+                print("Next Job " .. nextjob1)
+                --print(nextjob1)
+                tmr.delay(10) 
+                stringlen = string.len(nextjob1);
+                --print("String len " .. stringlen)
+                outputenabled_on(0);
+                
+                for i = 1, stringlen
+                    do 
+                    newstring = string.byte(nextjob1,i,(i + 1))
+                    --print("New string bin " .. newstring)
+                    if (newstring == 48) then
+                    --its a zero
+                        pulse(0)
+                    end
+                    if (newstring == 49) then
+                        --its a one
+                       pulse(1)
+                    end
+                    --newstring=nil
+                end
+                --stringlen=nil
+                outputenabled_on(1);
+             
+              end   
+    SetOutPutToAllZeros()
+    print("Print DOne");
+    --nextjob=nil
+    collectgarbage(); 
+end   
+
+function TurnLeft(degrees, form)
+
+totalsteps = tonumber(degrees) 
+
     outputarray = {}
     m1_temp = {}
-              for i=1,200, 1
+              for i=1,totalsteps, 1
                 do print(i) 
                 stepposition=i;
 
                 GetNextJobRight(nextjob);
                 outputarray[i] = nextjob
-                print(nextjob);
-                --createoutputarray(outputarray[i])  
-                
-                -- tmr.delay(10) 
-                      
+                print(nextjob);    
               end
-    --m1_temp = nil
-    --outputarray = nil
+
     collectgarbage();
   
     print("Print DOne");
     
 end     
-function TurnRigh360()
- -- loop 200 steps
+function TurnRight(degrees, form)
+totalsteps = tonumber(degrees) 
     outputarray = {}
     m1_temp = {}
-              for i=200,1, -1 
+              for i=totalsteps,1, -1 
                 do print(i) 
                 stepposition=i;
-
                 GetNextJobRight(nextjob);
                 outputarray[i] = nextjob
                 print(nextjob);
-                --createoutputarray(outputarray[i])  
-                
-                -- tmr.delay(10) 
-                      
+    
               end
-    --m1_temp = nil
-    --outputarray = nil  
+
     collectgarbage();
     print("Print DOne");
     
 end            
+function mysplit(inputstr)
+    
+        local t={} ; i=1
+       for token in string.gmatch(inputstr, "[^%s]+") do
+                t[i] = token
+                i = i + 1
+        end
 
+        return t
+end
 
 function module.start()  
 
