@@ -7,6 +7,7 @@ OE = 5 --gpio 14
 DS = 4 --gpio 02
 SH = 6 --gpio 12
 ST = 7 --gpio 13
+T = 9
 
 --nextjob = "1000"
  -- Main Program 
@@ -16,6 +17,7 @@ gpio.mode(OE, gpio.OUTPUT)
 gpio.mode(DS, gpio.OUTPUT)
 gpio.mode(SH, gpio.OUTPUT)
 gpio.mode(ST, gpio.OUTPUT)
+
 
 sda = 2-- SDA Pin
 scl = 1-- SCL Pin
@@ -139,34 +141,40 @@ nextjob = "1000"
    -- m1_temp = {}
    print("Total form " .. form)
    print("Total direction " .. direction)
+   
               for i=1,totalsteps, 1
                 do 
                 nextjob1=0
-                nextjob1= DynamicMove(nextjob,form,direction);   
-                print("Next Job " .. nextjob1)
-                --print(nextjob1)
-                tmr.delay(10) 
-                stringlen = string.len(nextjob1);
-                --print("String len " .. stringlen)
-                outputenabled_on(0);
+                nextjob1= DynamicMove(nextjob,form,direction);  
+                val = gpio.read(0)
+                if(tonumber(val) == 0 and totalsteps > 50) then
                 
-                for i = 1, stringlen
-                    do 
-                    newstring = string.byte(nextjob1,i,(i + 1))
-                    --print("New string bin " .. newstring)
-                    if (newstring == 48) then
-                    --its a zero
-                        pulse(0)
-                    end
-                    if (newstring == 49) then
+                else
+                    print("Next Job " .. val)
+                    --print(nextjob1)
+                    tmr.delay(50) 
+                    stringlen = string.len(nextjob1);
+                    --print("String len " .. stringlen)
+                    outputenabled_on(0);
+                
+                    for i = 1, stringlen
+                        do 
+                        newstring = string.byte(nextjob1,i,(i + 1))
+                        --print("New string bin " .. newstring)
+                        if (newstring == 48) then
+                        --its a zero
+                            pulse(0)
+                        end
+                        if (newstring == 49) then
                         --its a one
-                       pulse(1)
+                        pulse(1)
+                        end
+                        --newstring=nil
                     end
-                    --newstring=nil
-                end
-                --stringlen=nil
-                outputenabled_on(1);
-             
+                    --stringlen=nil
+                    outputenabled_on(1);
+                end 
+
               end   
     SetOutPutToAllZeros()
     print("Print DOne");
