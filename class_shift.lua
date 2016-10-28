@@ -147,7 +147,7 @@ nextjob = "1000"
                 nextjob1=0
                 nextjob1= DynamicMove(nextjob,form,direction);  
                 val = gpio.read(0)
-                if(tonumber(val) == 0 and totalsteps > 50) then
+                if(tonumber(val) == 0 and i > 50) then
                 
                 else
                     print("Next Job " .. val)
