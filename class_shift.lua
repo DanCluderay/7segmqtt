@@ -141,15 +141,25 @@ nextjob = "1000"
    -- m1_temp = {}
    print("Total form " .. form)
    print("Total direction " .. direction)
-   
+   endphase=0
+   if(tonumber(direction)==1) then
+    endphase=0
+   else
+    endphase=26
+   end
               for i=1,totalsteps, 1
                 do 
                 nextjob1=0
                 nextjob1= DynamicMove(nextjob,form,direction);  
                 val = gpio.read(0)
-                if(tonumber(val) == 0 and i > 50) then
+                
+                if(tonumber(val) == 0 and i > 50 and endphase > 20) then
                 
                 else
+                print(endphase)
+                    if(tonumber(val) == 0 and tonumber(direction)==1 and i > 50) then
+                        endphase=endphase+1
+                    end 
                     print("Next Job " .. val)
                     --print(nextjob1)
                     tmr.delay(50) 
