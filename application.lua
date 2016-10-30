@@ -3,10 +3,11 @@ local module = {}
 m = nil
 
 -- Sends a simple ping to the broker
-local function send_ping()  
+local function send_ping(ping_msg)  
 --print("===============send ping=====================" .. config.ID)
-
-    m:publish(config.ENDPOINT .. "ping2","id=" .. config.ID,0,0)
+    ping_path = config.ENDPOINT .. config.ID .. "/Return" 
+    print(ping_path)
+    m:publish(ping_path,ping_msg,0,0)
 end
 
 -- Sends my id to the broker for registration
@@ -46,6 +47,7 @@ print("===============mqtt start=====================")
 
             
             print("Finished job")
+            send_ping("Job Done")
             arr=nil
                  gpio.write(2, gpio.LOW);
                 
@@ -56,7 +58,7 @@ print("===============mqtt start=====================")
         register_myself()
         -- And then pings each 1000 milliseconds
         tmr.stop(6)
-        tmr.alarm(6, 1000, 1, send_ping)
+      --  tmr.alarm(6, 1000, 1, send_ping("Alive"))
     end) 
 
 end
