@@ -27,45 +27,6 @@ scl = 1-- SCL Pin
 outputarray = {}
 m1_temp = {}
 
-
-function createoutputarray(teststring)
-
-    stringlen = 0; --clean
-    stringlen = string.len(teststring);
-    if (stringlen < 1) then
-        print("Not long enough");
-    return; 
-    end
-    m1_len = 1;--clean
-    arraylenght = 0;--clean
-  
-    for i = 1,stringlen 
-      do 
-      newstring = string.byte(teststring,i,(i + 1))
-      if (newstring == 48) then
-        --its a zero
-   
-        table.insert(m1_temp,m1_len,0);
-        m1_len = m1_len + 1;
-    
-      end
-      if (newstring == 49) then
-        --its a one
-
-        table.insert(m1_temp,m1_len,1);
-        m1_len = m1_len + 1;
-    
-      end
-   end
-   
-   --clean up
-   stringlen = nil;
-   m1_len = nil;
-   arraylenght = nil;
-   newstring = nil;
-   collectgarbage();
-end
-
 function SetOutPutToAllZeros()
     outputenabled_on(0);
         for y=1, 4 ,1
@@ -74,31 +35,7 @@ function SetOutPutToAllZeros()
     outputenabled_on(1);
 end
 
-function buildoutputarray(degrees)
-totalsteps = tonumber(degrees) 
-    for i = 1, totalsteps, 1
 
-        do createoutputarray(outputarray[i])
-
-        outputenabled_on(0);
-        --print(outputarray[i]);
-        --print(node.heap());
-        for y=1, 4 ,1
-            do pulse(m1_temp[y])
-            --m1_temp = nil; --memory clean up
-        
-        end
-        outputenabled_on(1);
-      
-           tmr.delay(10) 
-    end
-    --outputarray = {}
-    --m1_temp = {}
-    print("Finished loop")
-    SetOutPutToAllZeros()
-    --SetOutPutToAllZeros=nil
-        collectgarbage();
-end
 
 function outputenabled_on(val)
 
@@ -133,102 +70,117 @@ function pulse(On)
        
 end
 
-function Drive_i(direction, degrees, form, jobid)
-   print("Total degrees " .. degrees)
-totalsteps = tonumber(degrees) 
-nextjob = "1000"
-    --outputarray = {}
-   -- m1_temp = {}
-   print("Total form " .. form)
-   print("Total direction " .. direction)
-   endphase=0
-   if(tonumber(direction)==1) then
-    endphase=0
-   else
-    endphase=26
-   end
-              for i=1,totalsteps, 1
-                do 
-                nextjob1=0
-                nextjob1= DynamicMove(nextjob,form,direction);  
-                val = gpio.read(0)
-                
-                if(tonumber(val) == 0 and i > 50 and endphase > 20) then
-                
-                else
-                print(endphase)
-                    if(tonumber(val) == 0 and tonumber(direction)==1 and i > 50) then
-                        endphase=endphase+1
-                    end 
-                    print("Next Job " .. val)
-                    --print(nextjob1)
-                    tmr.delay(50) 
-                    stringlen = string.len(nextjob1);
-                    --print("String len " .. stringlen)
-                    outputenabled_on(0);
-                
-                    for i = 1, stringlen
-                        do 
-                        newstring = string.byte(nextjob1,i,(i + 1))
-                        --print("New string bin " .. newstring)
-                        if (newstring == 48) then
-                        --its a zero
-                            pulse(0)
-                        end
-                        if (newstring == 49) then
-                        --its a one
-                        pulse(1)
-                        end
-                        --newstring=nil
-                    end
-                    --stringlen=nil
-                    outputenabled_on(1);
-                end 
-
-              end   
-    SetOutPutToAllZeros()
-    print("Print DOne");
-    --nextjob=nil
-    collectgarbage(); 
-end   
-
-function TurnLeft(degrees, form)
-
-totalsteps = tonumber(degrees) 
-
-    outputarray = {}
-    m1_temp = {}
-              for i=1,totalsteps, 1
-                do print(i) 
-                stepposition=i;
-
-                GetNextJobRight(nextjob);
-                outputarray[i] = nextjob
-                print(nextjob);    
-              end
-
-    collectgarbage();
-  
-    print("Print DOne");
+function PrintNumber(num)
+    outputenabled_on(0);
+    print("SSD " .. num)
+    if(tostring(num)=="1") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(0);--a
+        pulse(0);--f
+        pulse(0);--g
+        
+    elseif (tostring(num)=="2") then
+        pulse(0);--Dot
+        pulse(0);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(0);--f
+        pulse(1);--g
+        
+    elseif (num=="3") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(0);--f
+        pulse(1);--g
+    elseif (num=="4") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(0);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="5") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(0);--e
+        pulse(0);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="6") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(0);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="7") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(0);--f
+        pulse(0);--g
+    elseif (num=="8") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="9") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="0") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(0);--g
+    elseif (num=="-") then
+        pulse(0);--Dot
+        pulse(0);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(0);--b
+        pulse(0);--a
+        pulse(0);--f
+        pulse(0);--g
+    end
     
-end     
-function TurnRight(degrees, form)
-totalsteps = tonumber(degrees) 
-    outputarray = {}
-    m1_temp = {}
-              for i=totalsteps,1, -1 
-                do print(i) 
-                stepposition=i;
-                GetNextJobRight(nextjob);
-                outputarray[i] = nextjob
-                print(nextjob);
-    
-              end
+   
+    outputenabled_on(1);
+end
 
-    collectgarbage();
-    print("Print DOne");
-    
-end            
+
 function mysplit(inputstr)
     
         local t={} ; i=1
