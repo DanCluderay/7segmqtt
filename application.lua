@@ -40,13 +40,14 @@ print("===============mqtt start=====================")
      print(" arr 1 " .. arr[1])
      print(" arr 2 " .. arr[2])
      print(" arr 2 " .. arr[3])
-                 if (arr[1] == "Left") then
-
-                    TurnLeft(arr[2],arr[3])
-                    buildoutputarray(arr[2])
+                 if (arr[1] == "ping") then
+                    PrintNumber(arr[2])
                 elseif (arr[1]=="Right") then
                     TurnRight(arr[2],arr[3]) 
                     buildoutputarray(arr[2])
+                elseif (arr[1]== "1") then
+                    
+                    PrintNumber(arr[2])
                  else
                     Drive_i(arr[1],arr[2],arr[3], arr[4])
                  end
