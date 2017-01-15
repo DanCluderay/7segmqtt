@@ -133,7 +133,7 @@ function pulse(On)
        
 end
 
-function Drive_i(direction, degrees, form)
+function Drive_i(direction, degrees, form, jobid)
    print("Total degrees " .. degrees)
 totalsteps = tonumber(degrees) 
 nextjob = "1000"
