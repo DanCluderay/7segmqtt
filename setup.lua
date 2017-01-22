@@ -32,10 +32,13 @@ local function wifi_start(list_aps)
 end
 
 function module.start()  
-  gpio.write(1, gpio.LOW);
+  gpio.mode(1, gpio.OUTPUT)
+    gpio.write(1, gpio.LOW);
+gpio.mode(0, gpio.INPUT)
+
+--u = gpio.read(10)
   print("Configuring Wifi ...")
   wifi.setmode(wifi.STATION);
   wifi.sta.getap(wifi_start)
 end
-
 return module  

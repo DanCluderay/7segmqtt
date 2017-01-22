@@ -3,16 +3,24 @@ local module = {}
 m = nil
 
 -- Sends a simple ping to the broker
-local function send_ping()  
+local function send_ping(ping_msg)  
 --print("===============send ping=====================" .. config.ID)
-
-    m:publish(config.ENDPOINT .. "ping2","id=" .. config.ID,0,0)
+    ping_path = config.ENDPOINT .. config.ID .. "/Return" 
+    print(ping_path)
+    m:publish(ping_path,ping_msg,0,0)
+end
+local function Alive_ping()  
+--print("===============send ping=====================" .. config.ID)
+    ping_path = config.ENDPOINT .. config.ID .. "/Alive" 
+    print(ping_path)
+    m:publish(ping_path,"Alive",0,0)
 end
 
 -- Sends my id to the broker for registration
 local function register_myself()  
     m:subscribe(config.ENDPOINT .. config.ID,0,function(conn)
         print("Successfully subscribed to data endpoint" .. config.ENDPOINT .. config.ID)
+        send_ping("Registered")
         gpio.write(1, gpio.HIGH);
     end)
 end
@@ -22,30 +30,30 @@ print("===============mqtt start=====================")
     m = mqtt.Client(config.ID, 120)
     -- register message callback beforehand
     print("===============registered callback2 =====================")
+    
     m:on("message", function(conn, topic, data) 
         print("=============== m:  =====================")
-      if data ~= nil then
-        print(topic .. ": " .. data)
-     gpio.write(2, gpio.HIGH);
-     arr=mysplit(data)
+        if data ~= nil then
+            print(topic .. ": " .. data)
+            gpio.write(2, gpio.HIGH);
+            arr=mysplit(data)
      print(" arr 1 " .. arr[1])
      print(" arr 2 " .. arr[2])
      print(" arr 2 " .. arr[3])
-                 if (arr[1] == "Left") then
-
-                    TurnLeft(arr[2],arr[3])
-                    buildoutputarray(arr[2])
-                elseif (arr[1]=="Right") then
-                    TurnRight(arr[2],arr[3]) 
-                    buildoutputarray(arr[2])
+                if (arr[1] == "ping") then
+                    PrintNumber(arr[2])
+                elseif (arr[1]=="test") then
+                   
+                    CreateArray(arr[2])
                  else
-                    Drive_i(arr[1],arr[2],arr[3])
+                    
                  end
            
             
 
             
-            print("Finished job")
+            print("Finished job: " .. arr[4])
+            send_ping("Finished job: " .. arr[4])
             arr=nil
                  gpio.write(2, gpio.LOW);
                 
@@ -56,7 +64,7 @@ print("===============mqtt start=====================")
         register_myself()
         -- And then pings each 1000 milliseconds
         tmr.stop(6)
-        tmr.alarm(6, 1000, 1, send_ping)
+        tmr.alarm(6, 10000, 1, Alive_ping)
     end) 
 
 end

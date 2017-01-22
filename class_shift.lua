@@ -7,6 +7,7 @@ OE = 5 --gpio 14
 DS = 4 --gpio 02
 SH = 6 --gpio 12
 ST = 7 --gpio 13
+T = 9
 
 --nextjob = "1000"
  -- Main Program 
@@ -17,6 +18,7 @@ gpio.mode(DS, gpio.OUTPUT)
 gpio.mode(SH, gpio.OUTPUT)
 gpio.mode(ST, gpio.OUTPUT)
 
+
 sda = 2-- SDA Pin
 scl = 1-- SCL Pin
 
@@ -24,45 +26,6 @@ scl = 1-- SCL Pin
         
 outputarray = {}
 m1_temp = {}
-
-
-function createoutputarray(teststring)
-
-    stringlen = 0; --clean
-    stringlen = string.len(teststring);
-    if (stringlen < 1) then
-        print("Not long enough");
-    return; 
-    end
-    m1_len = 1;--clean
-    arraylenght = 0;--clean
-  
-    for i = 1,stringlen 
-      do 
-      newstring = string.byte(teststring,i,(i + 1))
-      if (newstring == 48) then
-        --its a zero
-   
-        table.insert(m1_temp,m1_len,0);
-        m1_len = m1_len + 1;
-    
-      end
-      if (newstring == 49) then
-        --its a one
-
-        table.insert(m1_temp,m1_len,1);
-        m1_len = m1_len + 1;
-    
-      end
-   end
-   
-   --clean up
-   stringlen = nil;
-   m1_len = nil;
-   arraylenght = nil;
-   newstring = nil;
-   collectgarbage();
-end
 
 function SetOutPutToAllZeros()
     outputenabled_on(0);
@@ -72,31 +35,7 @@ function SetOutPutToAllZeros()
     outputenabled_on(1);
 end
 
-function buildoutputarray(degrees)
-totalsteps = tonumber(degrees) 
-    for i = 1, totalsteps, 1
 
-        do createoutputarray(outputarray[i])
-
-        outputenabled_on(0);
-        --print(outputarray[i]);
-        --print(node.heap());
-        for y=1, 4 ,1
-            do pulse(m1_temp[y])
-            --m1_temp = nil; --memory clean up
-        
-        end
-        outputenabled_on(1);
-      
-           tmr.delay(10) 
-    end
-    --outputarray = {}
-    --m1_temp = {}
-    print("Finished loop")
-    SetOutPutToAllZeros()
-    --SetOutPutToAllZeros=nil
-        collectgarbage();
-end
 
 function outputenabled_on(val)
 
@@ -131,86 +70,117 @@ function pulse(On)
        
 end
 
-function Drive_i(direction, degrees, form)
-   print("Total degrees " .. degrees)
-totalsteps = tonumber(degrees) 
-nextjob = "1000"
-    --outputarray = {}
-   -- m1_temp = {}
-   print("Total form " .. form)
-   print("Total direction " .. direction)
-              for i=1,totalsteps, 1
-                do 
-                nextjob1=0
-                nextjob1= DynamicMove(nextjob,form,direction);   
-                print("Next Job " .. nextjob1)
-                --print(nextjob1)
-                tmr.delay(10) 
-                stringlen = string.len(nextjob1);
-                --print("String len " .. stringlen)
-                outputenabled_on(0);
-                
-                for i = 1, stringlen
-                    do 
-                    newstring = string.byte(nextjob1,i,(i + 1))
-                    --print("New string bin " .. newstring)
-                    if (newstring == 48) then
-                    --its a zero
-                        pulse(0)
-                    end
-                    if (newstring == 49) then
-                        --its a one
-                       pulse(1)
-                    end
-                    --newstring=nil
-                end
-                --stringlen=nil
-                outputenabled_on(1);
-             
-              end   
-    SetOutPutToAllZeros()
-    print("Print DOne");
-    --nextjob=nil
-    collectgarbage(); 
-end   
-
-function TurnLeft(degrees, form)
-
-totalsteps = tonumber(degrees) 
-
-    outputarray = {}
-    m1_temp = {}
-              for i=1,totalsteps, 1
-                do print(i) 
-                stepposition=i;
-
-                GetNextJobRight(nextjob);
-                outputarray[i] = nextjob
-                print(nextjob);    
-              end
-
-    collectgarbage();
-  
-    print("Print DOne");
+function PrintNumber(num)
+    outputenabled_on(0);
+    print("SSD " .. num)
+    if(tostring(num)=="1") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(0);--a
+        pulse(0);--f
+        pulse(0);--g
+        
+    elseif (tostring(num)=="2") then
+        pulse(0);--Dot
+        pulse(0);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(0);--f
+        pulse(1);--g
+        
+    elseif (num=="3") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(0);--f
+        pulse(1);--g
+    elseif (num=="4") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(0);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="5") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(0);--e
+        pulse(0);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="6") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(0);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="7") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(0);--f
+        pulse(0);--g
+    elseif (num=="8") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="9") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="0") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(0);--g
+    elseif (num=="-") then
+        pulse(0);--Dot
+        pulse(0);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(0);--b
+        pulse(0);--a
+        pulse(0);--f
+        pulse(0);--g
+    end
     
-end     
-function TurnRight(degrees, form)
-totalsteps = tonumber(degrees) 
-    outputarray = {}
-    m1_temp = {}
-              for i=totalsteps,1, -1 
-                do print(i) 
-                stepposition=i;
-                GetNextJobRight(nextjob);
-                outputarray[i] = nextjob
-                print(nextjob);
-    
-              end
+   
+    outputenabled_on(1);
+end
 
-    collectgarbage();
-    print("Print DOne");
-    
-end            
+
 function mysplit(inputstr)
     
         local t={} ; i=1
@@ -222,10 +192,90 @@ function mysplit(inputstr)
         return t
 end
 
+
+function CreateArray(the_num)
+    maxOutputArray = 7
+    -- calculate the lenght of the_num
+    num_len = string.len(the_num)
+    reverse_pos = maxOutputArray-num_len --when to start showing the numbers
+    
+    a = {} -- the output array
+    counting_dig = 0
+    for i = 1 ,maxOutputArray do -- creates an array 8 long (limited to 7 by the size of darling array chip)
+        digit_display = "" -- pin output configation "00101011"
+        digit_position = "" -- pin out config "0000001"
+        
+        if reverse_pos == i or reverse_pos > i then
+            -- a real number is going to go in here    
+            counting_dig = counting_dig + 1
+
+            digit_display = ret_displaydigit(1)
+            digit_position = ret_displaydigitPosition(i)
+        else
+            --this position will be blank
+            digit_display = "00000000" -- set to do nothing
+            digit_position = "00000000" -- set to do nothing
+        end
+
+        a[i] = digit_display .. digit_position
+    end    
+end
+
+function ret_displaydigitPosition(posi)
+    ret_string = ""
+    if posi == 1 then
+        ret_string = ""
+    else if posi == 2 then
+        ret_string = ""
+    else if posi == 3 then
+        ret_string = ""
+    else if (posi == 4) then
+        ret_string = ""
+    else if posi == 5 then
+        ret_string = ""
+    else if posi == 6 then
+        ret_string = ""
+    else 
+        ret_string = ""
+    end
+    
+    return ret_string
+end
+
+function ret_displaydigit(posi)
+    ret_string = ""
+    if(tostring(num) == "1") then
+        ret_string="00010010"
+    elseif (tostring(num) == "2") then
+        ret_string="10111100"
+    elseif (num=="3") then
+        ret_string="10110110"
+    elseif (num=="4") then
+        ret_string="11010010"
+    elseif (num=="5") then
+        ret_string="11100110"
+    elseif (num=="6") then
+        ret_string="11101110"
+    elseif (num=="7") then
+        ret_string="00110010"
+    elseif (num=="8") then
+        ret_string="11111110"
+    elseif (num=="9") then
+        ret_string="11110110"
+    elseif (num=="0") then
+        ret_string="01111110"
+    elseif (num=="-") then
+        ret_string="00000000"
+    else 
+        ret_string="00000000"
+    end
+    
+    return ret_string
+end
+
 function module.start()  
 
 end
-
 return module 
-
+end
 

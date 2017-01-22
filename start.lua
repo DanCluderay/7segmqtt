@@ -1,4 +1,5 @@
- gpio.write(0, gpio.HIGH);
+gpio.write(0, gpio.HIGH);
+
 
 app = require("application")  
 
