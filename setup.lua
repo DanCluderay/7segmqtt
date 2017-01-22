@@ -41,5 +41,4 @@ gpio.mode(0, gpio.INPUT)
   wifi.setmode(wifi.STATION);
   wifi.sta.getap(wifi_start)
 end
-
 return module  
