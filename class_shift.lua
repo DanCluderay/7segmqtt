@@ -192,10 +192,90 @@ function mysplit(inputstr)
         return t
 end
 
+
+function CreateArray(the_num)
+    maxOutputArray = 7
+    -- calculate the lenght of the_num
+    num_len = string.len(the_num)
+    reverse_pos = maxOutputArray-num_len --when to start showing the numbers
+    
+    a = {} -- the output array
+    counting_dig = 0
+    for i = 1 ,maxOutputArray do -- creates an array 8 long (limited to 7 by the size of darling array chip)
+        digit_display = "" -- pin output configation "00101011"
+        digit_position = "" -- pin out config "0000001"
+        
+        if reverse_pos == i or reverse_pos > i then
+            -- a real number is going to go in here    
+            counting_dig = counting_dig + 1
+
+            digit_display = ret_displaydigit(1)
+            digit_position = ret_displaydigitPosition(i)
+        else
+            --this position will be blank
+            digit_display = "00000000" -- set to do nothing
+            digit_position = "00000000" -- set to do nothing
+        end
+
+        a[i] = digit_display .. digit_position
+    end    
+end
+
+function ret_displaydigitPosition(posi)
+    ret_string = ""
+    if posi == 1 then
+        ret_string = ""
+    else if posi == 2 then
+        ret_string = ""
+    else if posi == 3 then
+        ret_string = ""
+    else if (posi == 4) then
+        ret_string = ""
+    else if posi == 5 then
+        ret_string = ""
+    else if posi == 6 then
+        ret_string = ""
+    else 
+        ret_string = ""
+    end
+    
+    return ret_string
+end
+
+function ret_displaydigit(posi)
+    ret_string = ""
+    if(tostring(num) == "1") then
+        ret_string="00010010"
+    elseif (tostring(num) == "2") then
+        ret_string="10111100"
+    elseif (num=="3") then
+        ret_string="10110110"
+    elseif (num=="4") then
+        ret_string="11010010"
+    elseif (num=="5") then
+        ret_string="11100110"
+    elseif (num=="6") then
+        ret_string="11101110"
+    elseif (num=="7") then
+        ret_string="00110010"
+    elseif (num=="8") then
+        ret_string="11111110"
+    elseif (num=="9") then
+        ret_string="11110110"
+    elseif (num=="0") then
+        ret_string="01111110"
+    elseif (num=="-") then
+        ret_string="00000000"
+    else 
+        ret_string="00000000"
+    end
+    
+    return ret_string
+end
+
 function module.start()  
 
 end
-
 return module 
-
+end
 

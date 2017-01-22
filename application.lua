@@ -33,23 +33,20 @@ print("===============mqtt start=====================")
     
     m:on("message", function(conn, topic, data) 
         print("=============== m:  =====================")
-      if data ~= nil then
-        print(topic .. ": " .. data)
-     gpio.write(2, gpio.HIGH);
-     arr=mysplit(data)
+        if data ~= nil then
+            print(topic .. ": " .. data)
+            gpio.write(2, gpio.HIGH);
+            arr=mysplit(data)
      print(" arr 1 " .. arr[1])
      print(" arr 2 " .. arr[2])
      print(" arr 2 " .. arr[3])
-                 if (arr[1] == "ping") then
+                if (arr[1] == "ping") then
                     PrintNumber(arr[2])
-                elseif (arr[1]=="Right") then
-                    TurnRight(arr[2],arr[3]) 
-                    buildoutputarray(arr[2])
-                elseif (arr[1]== "1") then
-                    
-                    PrintNumber(arr[2])
+                elseif (arr[1]=="test") then
+                   
+                    CreateArray(arr[2])
                  else
-                    Drive_i(arr[1],arr[2],arr[3], arr[4])
+                    
                  end
            
             
