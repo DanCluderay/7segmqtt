@@ -45,8 +45,8 @@ print("===============mqtt start=====================")
                 elseif (arr[1]=="test") then
                    
                     CreateArray(arr[2])
-                 else
-                    
+                    outputnumbertoSSD()
+                 
                  end
            
             
