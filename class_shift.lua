@@ -50,7 +50,7 @@ function pulse(On)
             else
                 gpio.write(DS, gpio.LOW);
             end 
-            tmr.delay(100)
+            tmr.delay(10)
             gpio.write(SH, gpio.HIGH);
             --tmr.delay(200)
             gpio.write(SH, gpio.LOW);        
@@ -64,19 +64,129 @@ function pulse(On)
             gpio.write(ST, gpio.LOW);
        
 end
-
+function PrintNumber(num)
+    outputenabled_on(0);
+    print("SSD " .. num)
+    if(tostring(num)=="1") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(0);--a
+        pulse(0);--f
+        pulse(0);--g
+        
+    elseif (tostring(num)=="2") then
+        pulse(0);--Dot
+        pulse(0);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(0);--f
+        pulse(1);--g
+        
+    elseif (num=="3") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(0);--f
+        pulse(1);--g
+    elseif (num=="4") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(0);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="5") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(0);--e
+        pulse(0);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="6") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(0);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="7") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(0);--f
+        pulse(0);--g
+    elseif (num=="8") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="9") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(0);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(1);--g
+    elseif (num=="0") then
+        pulse(0);--Dot
+        pulse(1);--C
+        pulse(1);--d
+        pulse(1);--e
+        pulse(1);--b
+        pulse(1);--a
+        pulse(1);--f
+        pulse(0);--g
+    elseif (num=="-") then
+        pulse(0);--Dot
+        pulse(0);--C
+        pulse(0);--d
+        pulse(0);--e
+        pulse(0);--b
+        pulse(0);--a
+        pulse(0);--f
+        pulse(0);--g
+    end
+    
+   
+    outputenabled_on(1);
+end
 function outputnumbertoSSD()
     --get the array
-    for p = 1 , 100 do
+    for p = 1 , 10 do
    
         for i = 1 , 7 do
             -- this is printing the
             thestring = a[i]
-            print("The String " .. thestring)
+            --tmr.delay(100000)
+            --print("The String (" .. i .. ")" .. thestring)
             --print(node.heap())
             outputenabled_on(0)
             for y = 1, 16 do
-                theChar = string.sub(thestring,1,y+1)
+                theChar = string.sub(thestring,y,y)
+                --print("dig print (" .. y .. ")" .. theChar)
                 if (theChar=="1") then
                     pulse(1)
                 elseif (theChar=="0") then
@@ -86,17 +196,18 @@ function outputnumbertoSSD()
                 end
             end
             outputenabled_on(1)
+            
         end
         --thestring = nil
         --theChar = nil
         --outputenabled_on = nil
         --pulse = nil
-        collectgarbage()
+        --
 
     end
     --loop it 
     --loop the loop 1000 times
-
+collectgarbage()
 end
 
 function mysplit(inputstr)
@@ -126,7 +237,8 @@ function CreateArray(the_num)
         if  reverse_pos < i then
             -- a real number is going to go in here    
             counting_dig = counting_dig + 1
-            di = string.sub(tostring(the_num), counting_dig, counting_dig + 1)
+            di = string.sub(tostring(the_num), counting_dig, counting_dig)
+            --print("dig 1 " .. di)
             digit_display = ret_displaydigit(di)
             digit_position = ret_displaydigitPosition(counting_dig)
         else
@@ -175,17 +287,17 @@ end
 function ret_displaydigitPosition(posi)
     ret_string = ""
     if (tostring(posi) == "1") then
-        ret_string = "10000000"
-    elseif (tostring(posi) == "2") then
         ret_string = "01000000"
-    elseif (tostring(posi) == "3") then
+    elseif (tostring(posi) == "2") then
         ret_string = "00100000"
-    elseif (tostring(posi) == "4") then
+    elseif (tostring(posi) == "3") then
         ret_string = "00010000"
-    elseif (tostring(posi) == "5") then
+    elseif (tostring(posi) == "4") then
         ret_string = "00001000"
-    elseif (tostring(posi) == "6") then
+    elseif (tostring(posi) == "5") then
         ret_string = "00000100"
+    elseif (tostring(posi) == "6") then
+        ret_string = "00000010"
     else 
         ret_string = "00000000"
     end
